@@ -10,6 +10,8 @@
 #include "programa.h"   // <= su propio archivo de cabecera
 #include "sapi.h"       // <= Biblioteca sAPI
 #include "mefAscensor.h"
+#include "driverTeclado.h"
+#include "driverDisplay.h"
 
 /*==================[definiciones y macros]==================================*/
 
