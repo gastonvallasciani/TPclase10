@@ -12,6 +12,9 @@
 #include "mefAscensor.h"
 #include "driverTeclado.h"
 #include "driverDisplay.h"
+#include "mefPuertas.h"
+#include "mefModoConfiguracion.h"
+#include "mefIngresoPiso.h" 
 
 /*==================[definiciones y macros]==================================*/
 
