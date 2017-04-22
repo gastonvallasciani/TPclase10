@@ -1,13 +1,15 @@
 /*============================================================================
- * Licencia: 
- * Autor: 
- * Fecha: 
+ * License: 
+ * Author: 
+ * Date: 
  *===========================================================================*/
 
-#ifndef _PROGRAM_H_
-#define _PROGRAM_H_
+#ifndef _TECLADO_MATRICIAL_H_
+#define _TECLADO_MATRICIAL_H_
 
-/*==================[inclusiones]============================================*/
+/*==================[inclusiones]=============================================*/
+
+#include "sapi.h" 
 
 /*==================[c++]====================================================*/
 
@@ -22,12 +24,16 @@ extern "C" {
 /*==================[declaraciones de datos externos]========================*/
 
 /*==================[declaraciones de funciones externas]====================*/
-uint16_t Act_TecladoMEF( void );
-void Ini_TecladoMEF( void );
+
+void configurarTecladoMatricial( void );
+bool_t leerTecladoMatricial( void ); 
+uint16_t key_pressedHex( void);
+uint16_t key_pressedAscii( void);
+
 /*==================[c++]====================================================*/
 #ifdef __cplusplus
 }
 #endif
 
 /*==================[end of file]============================================*/
-#endif /* _PROGRAM_H_ */
+#endif /* _TTECLADO_MATRICIAL_H_ */

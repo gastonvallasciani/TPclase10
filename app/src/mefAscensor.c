@@ -17,6 +17,7 @@
 /*==================[definiciones y macros]==================================*/
 
 /*==================[definiciones de datos internos]=========================*/
+
 static uint16_t vPeriodoEntrePiso=2000;
 static uint16_t vPeriodoAperturaPuerta=1000;
 static uint16_t vPeriodoCierrePuerta=1000;
@@ -67,7 +68,7 @@ static bool_t mefAscensorObtener(uint16_t *piso)
 	return FALSE;
 }
 
-static mefAscensorPutPiso(int16_t vPisoCorriente)
+static int16_t mefAscensorPutPiso(int16_t vPisoCorriente)
 {
         if (vPisoCorriente<0)
         {
@@ -272,7 +273,7 @@ void mefAscensorInsertar(uint16_t piso)
 	}
 }
 /*==================[fin del archivo]========================================*/
-void mefAscensorInit( void )
+/*void mefAscensorInit( void )
 {
   driverDisplayLimpiar(vDisplay);
   vDisplay[2]=CHAR_P;
@@ -551,4 +552,4 @@ void mefManejoPuertasInit( void )
   sPuertaCerrada=1;
   eCerrarPuertas=0;
   eAbrirPuertas=0;
-}
+}*/

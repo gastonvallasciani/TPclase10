@@ -1,9 +1,9 @@
 out/app/src/mefAscensor.o: app/src/mefAscensor.c app/inc/mefAscensor.h \
- libs/sapi/inc/sapi.h libs/sapi/inc/sapi_datatypes.h \
- libs/lpc_chip_43xx/inc/chip.h libs/lpc_chip_43xx/inc/sys_config.h \
- libs/lpc_chip_43xx/inc/cmsis.h libs/lpc_chip_43xx/inc/lpc_types.h \
- libs/lpc_chip_43xx/inc/cmsis_43xx.h libs/lpc_chip_43xx/inc/core_cm4.h \
- libs/lpc_chip_43xx/inc/core_cmInstr.h \
+ app/inc/driverDisplay.h app/inc/driverTeclado.h libs/sapi/inc/sapi.h \
+ libs/sapi/inc/sapi_datatypes.h libs/lpc_chip_43xx/inc/chip.h \
+ libs/lpc_chip_43xx/inc/sys_config.h libs/lpc_chip_43xx/inc/cmsis.h \
+ libs/lpc_chip_43xx/inc/lpc_types.h libs/lpc_chip_43xx/inc/cmsis_43xx.h \
+ libs/lpc_chip_43xx/inc/core_cm4.h libs/lpc_chip_43xx/inc/core_cmInstr.h \
  libs/lpc_chip_43xx/inc/core_cmFunc.h \
  libs/lpc_chip_43xx/inc/core_cm4_simd.h \
  libs/lpc_chip_43xx/inc/chip_lpc43xx.h \
