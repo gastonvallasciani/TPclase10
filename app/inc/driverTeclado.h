@@ -20,9 +20,11 @@ extern "C" {
 /*==================[tipos de datos declarados por el usuario]===============*/
 
 /*==================[declaraciones de datos externos]========================*/
+uint16_t eMostrarPiso;
 
 /*==================[declaraciones de funciones externas]====================*/
-
+void driverTecladoActualizar( void );
+void driverTecladoInit( void );
 /*==================[c++]====================================================*/
 #ifdef __cplusplus
 }

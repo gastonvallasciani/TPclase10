@@ -7,14 +7,12 @@
 
 /*==================[inclusiones]============================================*/
 
+#include "stdint.h"
 #include "programa.h"   // <= su propio archivo de cabecera
 #include "sapi.h"       // <= Biblioteca sAPI
 #include "mefAscensor.h"
 #include "driverTeclado.h"
 #include "driverDisplay.h"
-#include "mefPuertas.h"
-#include "mefModoConfiguracion.h"
-#include "mefIngresoPiso.h" 
 
 /*==================[definiciones y macros]==================================*/
 
@@ -33,28 +31,21 @@ int main( void ){
 
    // ---------- CONFIGURACIONES ------------------------------
    // Inicializar y configurar la plataforma
-   boardConfig();   
-   
+   boardConfig();
+   //inicializar driver de teclado
+   //inicializar driver de display
+   //inicializar mefAscensor
+   //inicializar manejo de puertas
+   uartWriteString(UART_USB,"Bienvenidos \n\r");
+
+
    // ---------- REPETIR POR SIEMPRE --------------------------
    while( TRUE )
-   {      
-      // Si se presiona TEC1, enciende el LEDR
-      gpioWrite( LEDR, !(gpioRead(TEC1)) );
-      
-      // Si se presiona TEC2, enciende el LED1
-      gpioWrite( LED1, !(gpioRead(TEC2)) );
-      
-      // Si se presiona TEC3, enciende el LED2
-      gpioWrite( LED2, !(gpioRead(TEC3)) );
-      
-      // Si se presiona TEC4, enciende el LED3
-      gpioWrite( LED3, !(gpioRead(TEC4)) );
-
-      // Intercambia el valor del LEDB
-      gpioToggle( LEDB );
-      
-      // Retardo bloqueante durante 100ms
-      delay( 100 );
+   {  
+     //Actualizar driverDisplay
+     //Actualizar driverTeclado
+     //Actualizar mefAscensor
+     //Actualizar mefManejo de Puertas
    } 
 
    // NO DEBE LLEGAR NUNCA AQUI, debido a que a este programa se ejecuta 
