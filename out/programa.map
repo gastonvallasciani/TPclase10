@@ -14,6 +14,7 @@ c:/ciaa/embeddedide/gcc-arm-embedded/bin/../lib/gcc/arm-none-eabi/6.3.1/../../..
 Allocating common symbols
 Common symbol       size              file
 
+estadoActual        0x1               out/app/src/Debounce.o
 SystemCoreClock     0x4               out/libs/lpc_chip_43xx/src/chip_18xx_43xx.o
 tickCounter         0x8               out/libs/sapi/src/sapi_tick.o
 pisos_pendientes    0x14              out/app/src/driverTeclado.o
@@ -23,6 +24,197 @@ tickRateMS          0x8               out/libs/sapi/src/sapi_tick.o
 
 Discarded input sections
 
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .group         0x00000000        0x8 out/app/src/Debounce.o
+ .text          0x00000000        0x0 out/app/src/Debounce.o
+ .data          0x00000000        0x0 out/app/src/Debounce.o
+ .bss           0x00000000        0x0 out/app/src/Debounce.o
+ .text.buttonPressed
+                0x00000000        0x4 out/app/src/Debounce.o
+ .text.buttonReleased
+                0x00000000        0x4 out/app/src/Debounce.o
+ .text.Ini_AntirreboteMEF
+                0x00000000       0x1c out/app/src/Debounce.o
+ .text.Act_AntirreboteMEF
+                0x00000000       0xa0 out/app/src/Debounce.o
+ .bss.debounce_delay
+                0x00000000       0x18 out/app/src/Debounce.o
+ .debug_info    0x00000000      0xfda out/app/src/Debounce.o
+ .debug_abbrev  0x00000000      0x2b5 out/app/src/Debounce.o
+ .debug_loc     0x00000000       0xde out/app/src/Debounce.o
+ .debug_aranges
+                0x00000000       0x38 out/app/src/Debounce.o
+ .debug_ranges  0x00000000       0x28 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x52b out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x8b0 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x22 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x87 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x51 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0xef out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x6a out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x1df out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x10 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x22 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x66 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x28 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x3b out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x2d out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x42 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0xd39 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x2bc out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x112 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x11 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x2a out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x16 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x2e6 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x82 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x13d out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x198 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x34 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x58 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x236 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x572 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x16 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x18a out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x88 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x1b9 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x1da out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x40 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x1c out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x2e out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x2e out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x22 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x201 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0xe0 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x34c out/app/src/Debounce.o
+ .debug_macro   0x00000000       0xdc out/app/src/Debounce.o
+ .debug_macro   0x00000000       0xc4 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x94 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0xb8 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x4c out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x16 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x328 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x3a out/app/src/Debounce.o
+ .debug_macro   0x00000000       0xd0 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x18 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x22 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x40 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x4c out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x58 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x35 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x9c out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x16 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x97 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x30d out/app/src/Debounce.o
+ .debug_macro   0x00000000       0xfd out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x10 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x58 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x1f out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x43 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x20 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x187 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x10 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x1c out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x52 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x40 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x10 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x40 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0xd7 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x16 out/app/src/Debounce.o
+ .debug_macro   0x00000000      0x18b out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x20 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x28 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x16 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x3a out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x10 out/app/src/Debounce.o
+ .debug_macro   0x00000000       0x70 out/app/src/Debounce.o
+ .debug_line    0x00000000      0x975 out/app/src/Debounce.o
+ .debug_str     0x00000000    0x198fc out/app/src/Debounce.o
+ .comment       0x00000000       0x80 out/app/src/Debounce.o
+ .debug_frame   0x00000000       0x60 out/app/src/Debounce.o
+ .ARM.attributes
+                0x00000000       0x39 out/app/src/Debounce.o
+ COMMON         0x00000000        0x1 out/app/src/Debounce.o
  .group         0x00000000        0x8 out/app/src/driverDisplay.o
  .group         0x00000000        0x8 out/app/src/driverDisplay.o
  .group         0x00000000        0x8 out/app/src/driverDisplay.o
@@ -325,7 +517,7 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x28 out/app/src/driverTeclado.o
  .debug_ranges  0x00000000       0x18 out/app/src/driverTeclado.o
- .debug_macro   0x00000000      0x541 out/app/src/driverTeclado.o
+ .debug_macro   0x00000000      0x54b out/app/src/driverTeclado.o
  .debug_macro   0x00000000      0x8b0 out/app/src/driverTeclado.o
  .debug_macro   0x00000000       0x22 out/app/src/driverTeclado.o
  .debug_macro   0x00000000       0x87 out/app/src/driverTeclado.o
@@ -408,8 +600,8 @@ Discarded input sections
  .debug_macro   0x00000000       0x3a out/app/src/driverTeclado.o
  .debug_macro   0x00000000       0x10 out/app/src/driverTeclado.o
  .debug_macro   0x00000000       0x70 out/app/src/driverTeclado.o
- .debug_line    0x00000000      0x99c out/app/src/driverTeclado.o
- .debug_str     0x00000000    0x19926 out/app/src/driverTeclado.o
+ .debug_line    0x00000000      0x9aa out/app/src/driverTeclado.o
+ .debug_str     0x00000000    0x19934 out/app/src/driverTeclado.o
  .comment       0x00000000       0x80 out/app/src/driverTeclado.o
  .debug_frame   0x00000000       0x38 out/app/src/driverTeclado.o
  .ARM.attributes
@@ -1392,7 +1584,7 @@ Discarded input sections
  .text.configurarTecladoMatricial
                 0x00000000       0x38 out/app/src/teclado_matricial.o
  .text.leerTecladoMatricial
-                0x00000000       0x9c out/app/src/teclado_matricial.o
+                0x00000000       0xa4 out/app/src/teclado_matricial.o
  .text.key_pressedHex
                 0x00000000       0x2c out/app/src/teclado_matricial.o
  .text.key_pressedAscii
@@ -1406,13 +1598,13 @@ Discarded input sections
                 0x00000000       0x20 out/app/src/teclado_matricial.o
  .data.keypadRowPins
                 0x00000000        0x4 out/app/src/teclado_matricial.o
- .debug_info    0x00000000     0x11a5 out/app/src/teclado_matricial.o
- .debug_abbrev  0x00000000      0x28a out/app/src/teclado_matricial.o
- .debug_loc     0x00000000      0x134 out/app/src/teclado_matricial.o
+ .debug_info    0x00000000     0x11a9 out/app/src/teclado_matricial.o
+ .debug_abbrev  0x00000000      0x299 out/app/src/teclado_matricial.o
+ .debug_loc     0x00000000       0xf1 out/app/src/teclado_matricial.o
  .debug_aranges
                 0x00000000       0x38 out/app/src/teclado_matricial.o
  .debug_ranges  0x00000000       0x28 out/app/src/teclado_matricial.o
- .debug_macro   0x00000000      0x52b out/app/src/teclado_matricial.o
+ .debug_macro   0x00000000      0x535 out/app/src/teclado_matricial.o
  .debug_macro   0x00000000      0x8b0 out/app/src/teclado_matricial.o
  .debug_macro   0x00000000       0x22 out/app/src/teclado_matricial.o
  .debug_macro   0x00000000       0x87 out/app/src/teclado_matricial.o
@@ -1495,8 +1687,8 @@ Discarded input sections
  .debug_macro   0x00000000       0x3a out/app/src/teclado_matricial.o
  .debug_macro   0x00000000       0x10 out/app/src/teclado_matricial.o
  .debug_macro   0x00000000       0x70 out/app/src/teclado_matricial.o
- .debug_line    0x00000000      0x9c7 out/app/src/teclado_matricial.o
- .debug_str     0x00000000    0x19a64 out/app/src/teclado_matricial.o
+ .debug_line    0x00000000      0x9d0 out/app/src/teclado_matricial.o
+ .debug_str     0x00000000    0x19a85 out/app/src/teclado_matricial.o
  .comment       0x00000000       0x80 out/app/src/teclado_matricial.o
  .debug_frame   0x00000000       0x74 out/app/src/teclado_matricial.o
  .ARM.attributes
@@ -10913,6 +11105,7 @@ RamAHB_ETB16     0x2000c000         0x00004000         xrw
 
 Linker script and memory map
 
+LOAD out/app/src/Debounce.o
 LOAD out/app/src/driverDisplay.o
 LOAD out/app/src/driverTeclado.o
 LOAD out/app/src/mefAscensor.o
@@ -11318,7 +11511,7 @@ END GROUP
  .v4_bx         0x1a0017d8        0x0 linker stubs
 
 .iplt           0x1a0017d8        0x0
- .iplt          0x1a0017d8        0x0 out/app/src/driverDisplay.o
+ .iplt          0x1a0017d8        0x0 out/app/src/Debounce.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
@@ -11331,7 +11524,7 @@ END GROUP
                 0x1a0017e0                _etext = .
 
 .rel.dyn        0x1a0017e0        0x0
- .rel.iplt      0x1a0017e0        0x0 out/app/src/driverDisplay.o
+ .rel.iplt      0x1a0017e0        0x0 out/app/src/Debounce.o
 
 .data_RAM2      0x10080000        0x0 load address 0x1a0017e0
  FILL mask 0xff
@@ -11386,7 +11579,7 @@ END GROUP
                 0x10000044                _edata = .
 
 .igot.plt       0x10000044        0x0 load address 0x1a001824
- .igot.plt      0x10000044        0x0 out/app/src/driverDisplay.o
+ .igot.plt      0x10000044        0x0 out/app/src/Debounce.o
 
 .bss_RAM2       0x10080000        0x0
  *(.bss.$RAM2*)
@@ -11743,6 +11936,8 @@ ADC0_IRQHandler                                   out/libs/lpc_board_ciaa_edu_43
 ADC1_IRQHandler                                   out/libs/lpc_board_ciaa_edu_4337/src/cr_startup_lpc43xx.o
 ADCHS_IRQHandler                                  out/libs/lpc_board_ciaa_edu_4337/src/cr_startup_lpc43xx.o
 ATIMER_IRQHandler                                 out/libs/lpc_board_ciaa_edu_4337/src/cr_startup_lpc43xx.o
+Act_AntirreboteMEF                                out/app/src/Debounce.o
+                                                  out/app/src/teclado_matricial.o
 Act_TecladoMEF                                    out/app/src/driverTeclado.o
 Board_DAC_Init                                    out/libs/lpc_board_ciaa_edu_4337/src/board.o
 Board_Debug_Init                                  out/libs/lpc_board_ciaa_edu_4337/src/board.o
@@ -12161,6 +12356,7 @@ I2C0_IRQHandler                                   out/libs/lpc_board_ciaa_edu_43
 I2C1_IRQHandler                                   out/libs/lpc_board_ciaa_edu_4337/src/cr_startup_lpc43xx.o
 I2S0_IRQHandler                                   out/libs/lpc_board_ciaa_edu_4337/src/cr_startup_lpc43xx.o
 I2S1_IRQHandler                                   out/libs/lpc_board_ciaa_edu_4337/src/cr_startup_lpc43xx.o
+Ini_AntirreboteMEF                                out/app/src/Debounce.o
 Ini_TecladoMEF                                    out/app/src/driverTeclado.o
 IntDefaultHandler                                 out/libs/lpc_board_ciaa_edu_4337/src/cr_startup_lpc43xx.o
 LCD_IRQHandler                                    out/libs/lpc_board_ciaa_edu_4337/src/cr_startup_lpc43xx.o
@@ -12317,11 +12513,13 @@ delay                                             out/libs/sapi/src/sapi_delay.o
 delayConfig                                       out/libs/sapi/src/sapi_delay.o
                                                   out/libs/sapi/src/sapi_uart.o
                                                   out/app/src/driverDisplay.o
+                                                  out/app/src/Debounce.o
 delayInaccurate                                   out/libs/sapi/src/sapi_delay.o
 delayInaccurateUs                                 out/libs/sapi/src/sapi_delay.o
 delayRead                                         out/libs/sapi/src/sapi_delay.o
                                                   out/libs/sapi/src/sapi_uart.o
                                                   out/app/src/driverDisplay.o
+                                                  out/app/src/Debounce.o
 delayWrite                                        out/libs/sapi/src/sapi_delay.o
 display7SegmentOutputs                            out/libs/sapi/src/sapi_7_segment_display.o
 display7SegmentPinConfig                          out/libs/sapi/src/sapi_7_segment_display.o
@@ -12332,6 +12530,7 @@ driverDisplayInit                                 out/app/src/driverDisplay.o
 driverDisplayLimpiar                              out/app/src/driverDisplay.o
 driverDisplayMostrar                              out/app/src/driverDisplay.o
 driverDisplayShf                                  out/app/src/driverDisplay.o
+estadoActual                                      out/app/src/Debounce.o
 estadoActualTeclado                               out/app/src/driverTeclado.o
 fpuInit                                           out/libs/lpc_chip_43xx/src/fpu_init.o
                                                   out/libs/lpc_board_ciaa_edu_4337/src/sysinit.o
@@ -12348,6 +12547,7 @@ gpioPinsConfig                                    out/libs/sapi/src/sapi_gpio.o
 gpioRead                                          out/libs/sapi/src/sapi_gpio.o
                                                   out/libs/sapi/src/sapi_keypad.o
                                                   out/app/src/teclado_matricial.o
+                                                  out/app/src/Debounce.o
 gpioToggle                                        out/libs/sapi/src/sapi_gpio.o
 gpioWrite                                         out/libs/sapi/src/sapi_gpio.o
                                                   out/libs/sapi/src/sapi_servo.o

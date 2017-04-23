@@ -8,7 +8,7 @@
 
 #include "teclado_matricial.h"   // <= su propio archivo de cabecera
 #include "sapi.h"       // <= Biblioteca sAPI
-//#include "Debounce.h"
+#include "Debounce.h"
 
 /*==================[definiciones y macros]==================================*/
 
@@ -126,7 +126,7 @@ bool_t leerTecladoMatricial( void ){
       // Si leo un estado BAJO en una columna entonces puede haber una tecla presionada
       if( !gpioRead( keypadColPins[c] ) ){
 
-         delay( 50 ); // Anti-rebotes de 50 ms
+         //delay( 50 ); // Anti-rebotes de 50 ms
 
          // Poner todas las filas en estado ALTO excepto la primera
          for( r=1; r<4; r++ ){
@@ -146,7 +146,7 @@ bool_t leerTecladoMatricial( void ){
             // Si dicha tecla esta oresionada (en estado BAJO) entonces retorna
             // graba la tecla en key y retorna TRUE
             if( !gpioRead( keypadColPins[c] ) ){
-               retVal = TRUE;
+               //retVal = TRUE;
                key = r * 4 + c;
                /*
                   Formula de las teclas de Teclado Matricial (Keypad)
@@ -158,7 +158,11 @@ bool_t leerTecladoMatricial( void ){
                   r2 10 11 12 13 14   valor = (i) * cantidadDeColumnas + (j)
                   r3 15 16 17 18 19
                */
-               return retVal;
+               if ((Act_AntirreboteMEF( keypadColPins[c] )))
+               {
+                  retVal = TRUE;
+                  return retVal;
+               }
             }
          }
 

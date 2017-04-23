@@ -8,7 +8,7 @@
 
 #include "programa.h"   // <= su propio archivo de cabecera
 #include "sapi.h"       // <= Biblioteca sAPI
-//#include "Debounce.h"
+#include "Debounce.h"
 #include "teclado_matricial.h"
 
 /*==================[definiciones y macros]==================================*/

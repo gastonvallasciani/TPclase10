@@ -66,4 +66,5 @@ out/app/src/driverTeclado.o: app/src/driverTeclado.c app/inc/programa.h \
  libs/sapi/inc/sapi_rtc.h libs/sapi/inc/sapi_sleep.h \
  libs/sapi/inc/sapi_7_segment_display.h libs/sapi/inc/sapi_keypad.h \
  libs/sapi/inc/sapi_pwm.h libs/sapi/inc/sapi_servo.h \
- libs/sapi/inc/sapi_hmc5883l.h app/inc/teclado_matricial.h
+ libs/sapi/inc/sapi_hmc5883l.h app/inc/Debounce.h \
+ app/inc/teclado_matricial.h
