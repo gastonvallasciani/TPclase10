@@ -163,10 +163,13 @@ SYMBOL TABLE:
 20010000 l       *ABS*	00000000 __top_RamAHB_ETB16
 10008000 l       *ABS*	00000000 __top_RamLoc32
 00000000 l       *UND*	00000000 puertasCerradas
+00000000 l       *UND*	00000000 uartWtriteByte
 2000c000 l       *ABS*	00000000 __top_RamAHB16
 1008a000 l       *ABS*	00000000 __top_RamLoc40
+00000000 l       *UND*	00000000 configurarCantSubsuelos
 10000088 l       .bss	00000000 _pvHeapStart
 1b080000 l       *ABS*	00000000 __top_MFlashB512
+00000000 l       *UND*	00000000 eAbrirPuertas
 00000000 l       *UND*	00000000 subirPiso
 1a000734 g     F .text	0000001c Chip_Clock_GetDividerSource
 1a001334 g     F .text	0000002e .hidden __gnu_uldivmod_helper

@@ -47,17 +47,17 @@
 /*==================[definiciones de datos internos]=========================*/
 
 static delay_t base1seg;
-static uint32_t eAperturaPuertas=0;
 static bool_t alarmaOn=FALSE;
 
 /*==================[definiciones de datos externos]=========================*/
 
-extern bool_t modoConfiguracion;
+extern uint8_t eConfiguracion;
+extern uint8_t eAperturaPuertas;
 
 extern uint32_t velocidadPuertas;   // En segundos, de 1 en adelante
 
 estadoMefPuertas_t estadoMefPuertas;
-
+uint8_t	sPuertaCerrada=0;
 /*==================[declaraciones de funciones internas]====================*/
 
 /*==================[definiciones de funciones internas]=====================*/
@@ -75,6 +75,16 @@ void secuenciaDeAperturaDePuertas( void ){/*
    eAperturaPuertas=1; 
 }
 
+void secuenciaDeCierreDePuertas( void ){/*
+   //gpioWrite( INDICADOR_PUERTA_ABRIENDOSE, ON );
+   gpioWrite( LEDG, ON );
+   delay( velocidadPuertas*1000 );
+   //gpioWrite( INDICADOR_PUERTA_ABIERTA, ON );
+   //gpioWrite( INDICADOR_PUERTA_ABRIENDOSE, OFF );
+   gpioWrite( LEDG, OFF );*/
+   uartWriteString( UART_USB, "Cerrando abiertas\r\n" );
+   sPuertaCerrada=0; 
+}
 
 // Inicializar la MEF de puertas
 void puertasInicializarMEF( estadoMefPuertas_t estadoInicial ){
@@ -96,6 +106,7 @@ void puertasActualizarMEF( void ){
     if(flagPuertaCerrada==FALSE)
     {
       flagPuertaCerrada==TRUE;
+      sPuertaCerrada=1;
     }
     if(eAperturaPuertas)
     {
@@ -107,6 +118,7 @@ void puertasActualizarMEF( void ){
       temporizador1=velocidadPuertas;
       delayConfig(&base1seg,1000);
       delayRead(&base1seg);
+      sPuertaCerrada=0;
     }
     break;
   case ABRIENDO_PUERTA:
@@ -134,21 +146,24 @@ void puertasActualizarMEF( void ){
       flagPuertaAbierta==TRUE;
       gpioWrite(INDICADOR_PUERTA_ABIERTA,ON);
     }
-    if(delayRead(&base1seg))
+    if(!eConfiguracion)
     {
-      temporizador1--;
-    }
-    if(temporizador1==0)
-    {
-      if(!gpioRead(TEC1))
-        estadoMefPuertas=ALARMA_PUERTA_ABIERTA;
-      else
-        estadoMefPuertas=CERRANDO_PUERTA;
-    }
-    if(estadoMefPuertas!=PUERTA_ABIERTA)
-    {
-      flagPuertaAbierta=FALSE;
-      gpioWrite(INDICADOR_PUERTA_ABIERTA,OFF);
+      if(delayRead(&base1seg))
+      {
+       temporizador1--;
+      }
+      if(temporizador1==0)
+      {
+        if(!gpioRead(TEC1))
+          estadoMefPuertas=ALARMA_PUERTA_ABIERTA;
+        else
+          estadoMefPuertas=CERRANDO_PUERTA;
+      }
+      if(estadoMefPuertas!=PUERTA_ABIERTA)
+      {
+        flagPuertaAbierta=FALSE;
+        gpioWrite(INDICADOR_PUERTA_ABIERTA,OFF);
+      }
     }
     break;
   case CERRANDO_PUERTA:

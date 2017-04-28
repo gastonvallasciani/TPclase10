@@ -70,8 +70,8 @@ extern uint32_t velocidadEntrePisos; // En segundos, de 1 en adelante
 extern uint32_t cantidadDePisos;     // De 1 a 20
 extern uint32_t cantidadDeSubsuelos; // De 0 a 5
 extern cola_t pedidos;
-extern eConfiguracion;
-extern eFinConfiguracion;
+extern uint8_t eConfiguracion;	   //evento generado por la mefConfiguraci'on
+extern uint8_t sPuertaCerrada;    //se~nal emitida por mefPuertas
 
 estadoMefAscensor_t estadoMefAscensor;
 
@@ -80,6 +80,7 @@ delay_t base1seg;
 
 int8_t pisoActual = 0;
 int8_t pisoDestino = 0;
+uint8_t eAperturaPuertas= 0; //evento generado por mefAscensor
 
 /*==================[declaraciones de funciones internas]====================*/
 
@@ -135,9 +136,10 @@ static bool_t subirUnPiso( void ){
 // Chequea si hay que entrar en modo configuraci'on
 static bool_t modoConfiguracion( void )
 {
-     if(pisoDestino=99)
+     if(pisoDestino==99 || eConfiguracion )
      {
        pisoDestino=0;
+       eConfiguracion=TRUE;
        return TRUE;
      }
      return FALSE;
@@ -274,6 +276,7 @@ void mostrarEstado( void ){
 // Inicializar la MEF de ascensor
 void ascensorInicializarMEF( void ){
    estadoMefAscensor = EN_PLANTA_BAJA;
+   eConfiguracion=1;
 }
 
 // Actualizar la MEF de ascensor
@@ -299,26 +302,34 @@ void ascensorActualizarMEF( void ){
          // Salida en el estado:
             // No hace nada.
          // Condicion/es de transicion de estado:
-         if (sacarDeCola(&pedidos,&pisoDestino))
+         if (sPuertaCerrada)
          {
-           if( modoConfiguracion() ){
-              // Se ingresa al modo configuracion
-              estadoMefAscensor = MODO_CONFIGURACION;
-           }
-           if( hayPeticionDeSubirPendiente( pisoActual ) ){ 
-              // Existe peticion pendiente de subir
-              estadoMefAscensor = SUBIENDO;
+           if (sacarDeCola(&pedidos,&pisoDestino))
+           {
+             if( modoConfiguracion() )
+             {
+                // Se ingresa al modo configuracion
+                estadoMefAscensor = MODO_CONFIGURACION;
+             }
+             else if( hayPeticionDeSubirPendiente( pisoActual ) )
+             { 
+                // Existe peticion pendiente de subir
+                estadoMefAscensor = SUBIENDO;
+                flagEnPlantaBaja = FALSE;
+             }
+             else if( hayPeticionDeBajarPendiente( pisoActual ) )
+             {
+                // Existe peticion pendiente de bajar
+                estadoMefAscensor = BAJANDO;
               flagEnPlantaBaja = FALSE;
-           }
-           if( hayPeticionDeBajarPendiente( pisoActual ) ){
-              // Existe peticion pendiente de bajar
-              estadoMefAscensor = BAJANDO;
-              flagEnPlantaBaja = FALSE;
+             }
+             else
+               //El Ascensor est'a em PB y lo llaman de PB
+               eAperturaPuertas=1;
            }
          }
          // Ejecutar si hubo cambio de estado
          if( estadoMefAscensor != EN_PLANTA_BAJA ){            
-            secuenciaDeCerradoDePuertas();
             flagEnPlantaBaja = FALSE;
          }
       break;
@@ -328,8 +339,8 @@ void ascensorActualizarMEF( void ){
          if( flagModoConfiguracion == FALSE ){
             flagModoConfiguracion = TRUE;  
             mostrarEstado();
-            secuenciaDeConfiguracion();
          }
+         secuenciaDeConfiguracion();
          // Salida en el estado:
             // No hace nada.
          // Condicion/es de transicion de estado:

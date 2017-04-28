@@ -431,31 +431,33 @@ Discarded input sections
  .bss           0x00000000        0x0 out/app/src/mefPuertas.o
  .text.secuenciaDeAperturaDePuertas
                 0x00000000       0x1c out/app/src/mefPuertas.o
+ .text.secuenciaDeCierreDePuertas
+                0x00000000       0x1c out/app/src/mefPuertas.o
  .text.puertasInicializarMEF
                 0x00000000        0xc out/app/src/mefPuertas.o
  .text.puertasActualizarMEF
-                0x00000000      0x1f0 out/app/src/mefPuertas.o
+                0x00000000      0x210 out/app/src/mefPuertas.o
+ .bss.flagCerrandoPuerta.10631
+                0x00000000        0x1 out/app/src/mefPuertas.o
  .bss.base1seg  0x00000000       0x18 out/app/src/mefPuertas.o
- .bss.flagPuertaAbierta.10625
+ .bss.flagAbriendoPuerta.10630
                 0x00000000        0x1 out/app/src/mefPuertas.o
- .bss.flagAbriendoPuerta.10626
-                0x00000000        0x1 out/app/src/mefPuertas.o
- .bss.eAperturaPuertas
+ .data.temporizador1.10633
                 0x00000000        0x4 out/app/src/mefPuertas.o
- .bss.flagPuertaCerrada.10624
+ .bss.flagPuertaAbierta.10629
                 0x00000000        0x1 out/app/src/mefPuertas.o
  .rodata.str1.4
-                0x00000000       0x14 out/app/src/mefPuertas.o
- .bss.flagCerrandoPuerta.10627
+                0x00000000       0x28 out/app/src/mefPuertas.o
+ .bss.flagPuertaCerrada.10628
                 0x00000000        0x1 out/app/src/mefPuertas.o
- .data.temporizador1.10629
-                0x00000000        0x4 out/app/src/mefPuertas.o
+ .bss.sPuertaCerrada
+                0x00000000        0x1 out/app/src/mefPuertas.o
  .bss.alarmaOn  0x00000000        0x1 out/app/src/mefPuertas.o
- .debug_info    0x00000000      0xb67 out/app/src/mefPuertas.o
+ .debug_info    0x00000000      0xbab out/app/src/mefPuertas.o
  .debug_abbrev  0x00000000      0x17b out/app/src/mefPuertas.o
  .debug_aranges
-                0x00000000       0x30 out/app/src/mefPuertas.o
- .debug_ranges  0x00000000       0x20 out/app/src/mefPuertas.o
+                0x00000000       0x38 out/app/src/mefPuertas.o
+ .debug_ranges  0x00000000       0x28 out/app/src/mefPuertas.o
  .debug_macro   0x00000000      0x4b8 out/app/src/mefPuertas.o
  .debug_macro   0x00000000      0x87a out/app/src/mefPuertas.o
  .debug_macro   0x00000000       0x22 out/app/src/mefPuertas.o
@@ -532,10 +534,10 @@ Discarded input sections
  .debug_macro   0x00000000       0x3a out/app/src/mefPuertas.o
  .debug_macro   0x00000000       0x10 out/app/src/mefPuertas.o
  .debug_macro   0x00000000       0x70 out/app/src/mefPuertas.o
- .debug_line    0x00000000      0x90e out/app/src/mefPuertas.o
- .debug_str     0x00000000    0x18785 out/app/src/mefPuertas.o
+ .debug_line    0x00000000      0x924 out/app/src/mefPuertas.o
+ .debug_str     0x00000000    0x187be out/app/src/mefPuertas.o
  .comment       0x00000000       0x71 out/app/src/mefPuertas.o
- .debug_frame   0x00000000       0x50 out/app/src/mefPuertas.o
+ .debug_frame   0x00000000       0x6c out/app/src/mefPuertas.o
  .ARM.attributes
                 0x00000000       0x39 out/app/src/mefPuertas.o
  COMMON         0x00000000        0x1 out/app/src/mefPuertas.o
@@ -617,26 +619,35 @@ Discarded input sections
  .text          0x00000000        0x0 out/app/src/mefModoConfiguracion.o
  .data          0x00000000        0x0 out/app/src/mefModoConfiguracion.o
  .bss           0x00000000        0x0 out/app/src/mefModoConfiguracion.o
+ .text.configurarCantPisos
+                0x00000000       0xe4 out/app/src/mefModoConfiguracion.o
+ .text.configurarPeriodoEntrePisos
+                0x00000000       0xd0 out/app/src/mefModoConfiguracion.o
+ .text.configurarPeriodoAperturaCierre
+                0x00000000       0xc8 out/app/src/mefModoConfiguracion.o
  .text.secuenciaDeConfiguracion
-                0x00000000        0xc out/app/src/mefModoConfiguracion.o
+                0x00000000       0x3c out/app/src/mefModoConfiguracion.o
  .text.seCompletoLaConfiguracion
-                0x00000000        0x4 out/app/src/mefModoConfiguracion.o
- .bss.modoConfiguracion
-                0x00000000        0x1 out/app/src/mefModoConfiguracion.o
+                0x00000000       0x4c out/app/src/mefModoConfiguracion.o
  .data.velocidadEntrePisos
                 0x00000000        0x4 out/app/src/mefModoConfiguracion.o
+ .rodata.str1.4
+                0x00000000       0xf4 out/app/src/mefModoConfiguracion.o
  .data.velocidadPuertas
                 0x00000000        0x4 out/app/src/mefModoConfiguracion.o
  .data.cantidadDePisos
                 0x00000000        0x4 out/app/src/mefModoConfiguracion.o
  .data.cantidadDeSubsuelos
                 0x00000000        0x4 out/app/src/mefModoConfiguracion.o
- .debug_info    0x00000000      0x623 out/app/src/mefModoConfiguracion.o
- .debug_abbrev  0x00000000       0xcb out/app/src/mefModoConfiguracion.o
+ .bss.eConfiguracion
+                0x00000000        0x1 out/app/src/mefModoConfiguracion.o
+ .debug_info    0x00000000      0xb43 out/app/src/mefModoConfiguracion.o
+ .debug_abbrev  0x00000000      0x1d0 out/app/src/mefModoConfiguracion.o
+ .debug_loc     0x00000000      0x1fd out/app/src/mefModoConfiguracion.o
  .debug_aranges
-                0x00000000       0x28 out/app/src/mefModoConfiguracion.o
- .debug_ranges  0x00000000       0x18 out/app/src/mefModoConfiguracion.o
- .debug_macro   0x00000000      0x4a0 out/app/src/mefModoConfiguracion.o
+                0x00000000       0x40 out/app/src/mefModoConfiguracion.o
+ .debug_ranges  0x00000000       0x30 out/app/src/mefModoConfiguracion.o
+ .debug_macro   0x00000000      0x4aa out/app/src/mefModoConfiguracion.o
  .debug_macro   0x00000000      0x87a out/app/src/mefModoConfiguracion.o
  .debug_macro   0x00000000       0x22 out/app/src/mefModoConfiguracion.o
  .debug_macro   0x00000000       0x44 out/app/src/mefModoConfiguracion.o
@@ -712,10 +723,10 @@ Discarded input sections
  .debug_macro   0x00000000       0x3a out/app/src/mefModoConfiguracion.o
  .debug_macro   0x00000000       0x10 out/app/src/mefModoConfiguracion.o
  .debug_macro   0x00000000       0x70 out/app/src/mefModoConfiguracion.o
- .debug_line    0x00000000      0x8d7 out/app/src/mefModoConfiguracion.o
- .debug_str     0x00000000    0x18463 out/app/src/mefModoConfiguracion.o
+ .debug_line    0x00000000      0x9bd out/app/src/mefModoConfiguracion.o
+ .debug_str     0x00000000    0x1858f out/app/src/mefModoConfiguracion.o
  .comment       0x00000000       0x71 out/app/src/mefModoConfiguracion.o
- .debug_frame   0x00000000       0x30 out/app/src/mefModoConfiguracion.o
+ .debug_frame   0x00000000       0xac out/app/src/mefModoConfiguracion.o
  .ARM.attributes
                 0x00000000       0x39 out/app/src/mefModoConfiguracion.o
  .group         0x00000000        0x8 out/app/src/teclado_matricial.o
@@ -983,7 +994,7 @@ Discarded input sections
  .text.llegoAlPiso
                 0x00000000       0x14 out/app/src/mefAscensor.o
  .text.modoConfiguracion
-                0x00000000       0x10 out/app/src/mefAscensor.o
+                0x00000000       0x28 out/app/src/mefAscensor.o
  .text.hayPeticionDeSubirPendiente
                 0x00000000       0x18 out/app/src/mefAscensor.o
  .text.hayPeticionDeBajarPendiente
@@ -996,35 +1007,37 @@ Discarded input sections
  .text.mostrarEstado
                 0x00000000       0xd8 out/app/src/mefAscensor.o
  .text.ascensorInicializarMEF
-                0x00000000        0xc out/app/src/mefAscensor.o
+                0x00000000       0x18 out/app/src/mefAscensor.o
  .text.mostrarPiso
                 0x00000000       0xac out/app/src/mefAscensor.o
  .text.ascensorActualizarMEF
-                0x00000000      0x290 out/app/src/mefAscensor.o
- .bss.flagEnPlantaBaja.10742
+                0x00000000      0x2a8 out/app/src/mefAscensor.o
+ .bss.flagEnPlantaBaja.10743
                 0x00000000        0x1 out/app/src/mefAscensor.o
- .bss.flagModoConfiguracion.10743
+ .bss.flagModoConfiguracion.10744
                 0x00000000        0x1 out/app/src/mefAscensor.o
  .bss.pisoActual
                 0x00000000        0x1 out/app/src/mefAscensor.o
  .bss.temporizador
                 0x00000000        0x1 out/app/src/mefAscensor.o
+ .bss.eAperturaPuertas
+                0x00000000        0x1 out/app/src/mefAscensor.o
  .bss.pisoDestino
                 0x00000000        0x1 out/app/src/mefAscensor.o
- .bss.flagYendoAPlantaBaja.10747
+ .bss.flagYendoAPlantaBaja.10748
                 0x00000000        0x1 out/app/src/mefAscensor.o
  .bss.vDisplay  0x00000000        0x8 out/app/src/mefAscensor.o
  .rodata.str1.4
                 0x00000000      0x170 out/app/src/mefAscensor.o
- .bss.flagBajando.10744
+ .bss.flagParado.10747
                 0x00000000        0x1 out/app/src/mefAscensor.o
- .bss.flagSubiendo.10745
+ .bss.flagBajando.10745
+                0x00000000        0x1 out/app/src/mefAscensor.o
+ .bss.flagSubiendo.10746
                 0x00000000        0x1 out/app/src/mefAscensor.o
  .bss.tpoEntrePisos
                 0x00000000        0x4 out/app/src/mefAscensor.o
- .bss.flagParado.10746
-                0x00000000        0x1 out/app/src/mefAscensor.o
- .debug_info    0x00000000      0xee4 out/app/src/mefAscensor.o
+ .debug_info    0x00000000      0xed0 out/app/src/mefAscensor.o
  .debug_abbrev  0x00000000      0x28a out/app/src/mefAscensor.o
  .debug_loc     0x00000000      0x19c out/app/src/mefAscensor.o
  .debug_aranges
@@ -1107,8 +1120,8 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 out/app/src/mefAscensor.o
  .debug_macro   0x00000000       0x70 out/app/src/mefAscensor.o
  .debug_macro   0x00000000       0x28 out/app/src/mefAscensor.o
- .debug_line    0x00000000      0xab7 out/app/src/mefAscensor.o
- .debug_str     0x00000000    0x18895 out/app/src/mefAscensor.o
+ .debug_line    0x00000000      0xac2 out/app/src/mefAscensor.o
+ .debug_str     0x00000000    0x188a8 out/app/src/mefAscensor.o
  .comment       0x00000000       0x71 out/app/src/mefAscensor.o
  .debug_frame   0x00000000       0xfc out/app/src/mefAscensor.o
  .ARM.attributes
@@ -12199,6 +12212,7 @@ cantidadDeSubsuelos                               out/app/src/mefModoConfiguraci
                                                   out/app/src/mefAscensor.o
 configCola                                        out/libs/cola_circular/src/cola_circular.o
                                                   out/app/src/programa.o
+configurarCantSubsuelos                           out/app/src/mefModoConfiguracion.o
 configurarTecladoMatricial                        out/app/src/teclado_matricial.o
 dacConfig                                         out/libs/sapi/src/sapi_dac.o
 dacWrite                                          out/libs/sapi/src/sapi_dac.o
@@ -12232,6 +12246,12 @@ driverDisplayLimpiar                              out/app/src/driverDisplay.o
 driverDisplayMostrar                              out/app/src/driverDisplay.o
                                                   out/app/src/mefAscensor.o
 driverDisplayShf                                  out/app/src/driverDisplay.o
+eAbrirPuertas                                     out/app/src/mefModoConfiguracion.o
+eAperturaPuertas                                  out/app/src/mefAscensor.o
+                                                  out/app/src/mefPuertas.o
+eConfiguracion                                    out/app/src/mefModoConfiguracion.o
+                                                  out/app/src/mefAscensor.o
+                                                  out/app/src/mefPuertas.o
 estadoActual                                      out/app/src/Debounce.o
 estadoActualTeclado                               out/app/src/driverTeclado.o
 estadoMefAscensor                                 out/app/src/mefAscensor.o
@@ -12293,7 +12313,6 @@ memcpy                                            /home/agrosso/ciaa-ide/gcc-arm
 memset                                            /home/agrosso/ciaa-ide/gcc-arm-none-eabi-4_9-2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7e-m/fpu/libc_nano.a(lib_a-memset.o)
                                                   out/libs/lpc_chip_43xx/src/clock_18xx_43xx.o
 mensaje                                           out/app/src/mefAscensor.o
-modoConfiguracion                                 out/app/src/mefModoConfiguracion.o
 mostrarEstado                                     out/app/src/mefAscensor.o
 mostrarPiso                                       out/app/src/mefAscensor.o
 pedido                                            out/app/src/programa.o
@@ -12315,13 +12334,16 @@ rtcRead                                           out/libs/sapi/src/sapi_rtc.o
 rtcWrite                                          out/libs/sapi/src/sapi_rtc.o
 sAPI_NullFuncPtr                                  out/libs/sapi/src/sapi_datatypes.o
                                                   out/libs/sapi/src/sapi_tick.o
+sPuertaCerrada                                    out/app/src/mefPuertas.o
+                                                  out/app/src/mefAscensor.o
 sacarDeCola                                       out/libs/cola_circular/src/cola_circular.o
                                                   out/app/src/mefAscensor.o
 seCompletoLaConfiguracion                         out/app/src/mefModoConfiguracion.o
                                                   out/app/src/mefAscensor.o
 secuenciaDeAperturaDePuertas                      out/app/src/mefPuertas.o
                                                   out/app/src/mefAscensor.o
-secuenciaDeCerradoDePuertas                       out/app/src/mefAscensor.o
+secuenciaDeCerradoDePuertas                       out/app/src/mefModoConfiguracion.o
+secuenciaDeCierreDePuertas                        out/app/src/mefPuertas.o
 secuenciaDeConfiguracion                          out/app/src/mefModoConfiguracion.o
                                                   out/app/src/mefAscensor.o
 servoConfig                                       out/libs/sapi/src/sapi_servo.o
@@ -12345,11 +12367,15 @@ tickWrite                                         out/libs/sapi/src/sapi_tick.o
 uartConfig                                        out/libs/sapi/src/sapi_uart.o
                                                   out/app/src/programa.o
 uartReadByte                                      out/libs/sapi/src/sapi_uart.o
+                                                  out/app/src/mefModoConfiguracion.o
 uartWriteByte                                     out/libs/sapi/src/sapi_uart.o
+                                                  out/app/src/mefModoConfiguracion.o
 uartWriteString                                   out/libs/sapi/src/sapi_uart.o
                                                   out/app/src/mefAscensor.o
+                                                  out/app/src/mefModoConfiguracion.o
                                                   out/app/src/mefPuertas.o
                                                   out/app/src/programa.o
+uartWtriteByte                                    out/app/src/mefModoConfiguracion.o
 velocidadEntrePisos                               out/app/src/mefModoConfiguracion.o
                                                   out/app/src/mefAscensor.o
 velocidadPuertas                                  out/app/src/mefModoConfiguracion.o

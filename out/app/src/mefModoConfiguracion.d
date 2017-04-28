@@ -66,4 +66,4 @@ out/app/src/mefModoConfiguracion.o: app/src/mefModoConfiguracion.c \
  libs/sapi/inc/sapi_rtc.h libs/sapi/inc/sapi_sleep.h \
  libs/sapi/inc/sapi_7_segment_display.h libs/sapi/inc/sapi_keypad.h \
  libs/sapi/inc/sapi_pwm.h libs/sapi/inc/sapi_servo.h \
- libs/sapi/inc/sapi_hmc5883l.h
+ libs/sapi/inc/sapi_hmc5883l.h app/inc/mefPuertas.h
