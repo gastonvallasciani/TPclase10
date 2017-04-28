@@ -13,15 +13,23 @@
 #include "mefAscensor.h"
 #include "driverTeclado.h"
 #include "driverDisplay.h"
+#include "cola_circular.h"
 
 /*==================[definiciones y macros]==================================*/
 
 /*==================[definiciones de datos internos]=========================*/
 
 /*==================[definiciones de datos externos]=========================*/
+int8_t buffer[10];
+cola_t pedido;
 
 /*==================[declaraciones de funciones internas]====================*/
-
+static void colaVacia( void )
+{
+}
+static void colaLlena( void )
+{
+}
 /*==================[declaraciones de funciones externas]====================*/
 
 /*==================[funcion principal]======================================*/
@@ -32,6 +40,8 @@ int main( void ){
    // ---------- CONFIGURACIONES ------------------------------
    // Inicializar y configurar la plataforma
    boardConfig();
+   uartConfig(UART_USB,115200);
+   configCola(&pedido,buffer,sizeof(buffer)/sizeof(int8_t),colaVacia,colaLlena);
    //inicializar driver de teclado
    //inicializar driver de display
    //inicializar mefAscensor

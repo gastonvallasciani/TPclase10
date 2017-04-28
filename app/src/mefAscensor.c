@@ -1,555 +1,470 @@
-/*============================================================================
- * Licencia: 
- * Autor: 
- * Fecha: 
- *===========================================================================*/
-
-
-
+/* Copyright 2017, Eric Pernia.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *    contributors may be used to endorse or promote products derived from this
+ *    software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
+/*
+ * Date: 2017-04-14 
+ */
 /*==================[inlcusiones]============================================*/
 
-#include "stdint.h"
 #include "mefAscensor.h"   // <= su propio archivo de cabecera
-#include "driverDisplay.h" //Interfaz con el Display
-#include "driverTeclado.h" //Interfaz con el Teclado
+#include "mefIngresoPiso.h"
+#include "mefPuertas.h"
+#include "mefModoConfiguracion.h"
+#include "driverDisplay.h"
+#include "driverTeclado.h"
 #include "sapi.h"       // <= Biblioteca sAPI
+#include "cola_circular.h" // Biblioteca Cola Circular
 
 /*==================[definiciones y macros]==================================*/
 
+#define INDICADOR_MOVIENDOSE   LEDB // ascensor en movimiento.
+#define INDICADOR_DETENIDO     LED3 // ascensor detenido o en planta baja.
+
+#define TIMEOUT_PARADO  5 // Si se encuentra 10 segundos detenido en un piso 
+                          // vuelve a planta baja
+
+typedef enum{
+   EN_PLANTA_BAJA,
+   MODO_CONFIGURACION,
+   BAJANDO,
+   SUBIENDO,
+   PARADO,
+   YENDO_A_PLANTA_BAJA
+} estadoMefAscensor_t;
+
 /*==================[definiciones de datos internos]=========================*/
+static uint32_t tpoEntrePisos=0;
+static uint16_t vDisplay[4];
 
-static uint16_t vPeriodoEntrePiso=2000;
-static uint16_t vPeriodoAperturaPuerta=1000;
-static uint16_t vPeriodoCierrePuerta=1000;
-static uint16_t vPeriodoIngresoEgreso=5000;
-static uint16_t vPeriodoEsperaEnDestino=5000;
-static uint16_t vDisplay[4]={NULO,NULO,NULO,NULO};
-static int16_t  vPisoCorriente=0;
-static int16_t  vPisoDestino=0;
-static uint16_t eAbrirPuertas=0;
-static uint16_t eCerrarPuertas=0;
-static uint16_t sPuertaCerrada=0;
-static uint16_t sPuertaAbierta=0;
-static delay_t delayEntrePiso;
-static delay_t delayEsperaEnDestino;
-
-static struct cola
-{
-  int16_t  pendiente[16];
-  uint16_t cant;
-  uint16_t ultimo;
-  uint16_t primero;
-} vColaDePisos={.cant=0,.ultimo=0,.primero=0}; 
 /*==================[definiciones de datos externos]=========================*/
-uint16_t vCantidadPisos=20;
-uint16_t vCantidadSubsuelos=5;
+
+
+extern uint32_t velocidadEntrePisos; // En segundos, de 1 en adelante
+extern uint32_t cantidadDePisos;     // De 1 a 20
+extern uint32_t cantidadDeSubsuelos; // De 0 a 5
+extern cola_t pedidos;
+extern eConfiguracion;
+extern eFinConfiguracion;
+
+estadoMefAscensor_t estadoMefAscensor;
+
+uint8_t temporizador = 0;
+delay_t base1seg;
+
+int8_t pisoActual = 0;
+int8_t pisoDestino = 0;
 
 /*==================[declaraciones de funciones internas]====================*/
-static void configurarCantPisos(uartMap_t uart);
-static void configurarCantidadSubsuelos(uartMap_t uart);
-static void configurarPeriodoAperturaCierre(uartMap_t uart);
-static void configurarPeriodoEntrePisos(uartMap_t uart);
 
-/*==================[declaraciones de funciones externas]====================*/
-void mefAscensorInsertar(uint16_t piso);
+// Funcion de test: Devuelve TRUE si llego al piso correspondiente
+static bool_t llegoAlPiso( int8_t piso );
 
-/*==================[funcion principal]======================================*/
+// Moverse hacia abajo
+static bool_t bajarUnPiso( void );
+
+// Moverse hacia arriba
+static bool_t subirUnPiso( void );
+
+// Chequea si hay que entrar en modo configuraci'on
+static bool_t modoConfiguracion( void );
+
+// Chequea si hay que subir
+static bool_t hayPeticionDeSubirPendiente( int8_t pisoActual );
+
+// Chequea si hay que bajar
+static bool_t hayPeticionDeBajarPendiente( int8_t pisoActual );
 
 /*==================[definiciones de funciones internas]=====================*/
-static bool_t mefAscensorObtener(uint16_t *piso)
-{
-	if (vColaDePisos.cant>0)
-	{
-	  vColaDePisos.cant--;
-	  *piso=vColaDePisos.pendiente[vColaDePisos.primero++];
-	  vColaDePisos.primero&=0x0f;
-	  return TRUE;  
-	}
-	return FALSE;
+
+// Funcion de test: Devuelve TRUE si llego al piso correspondiente
+static bool_t llegoAlPiso( int8_t piso ){   
+   return ( pisoActual == piso );
 }
 
-static int16_t mefAscensorPutPiso(int16_t vPisoCorriente)
+// Moverse hacia abajo
+static bool_t bajarUnPiso( void ){
+   if (delayRead(&base1seg))
+      tpoEntrePisos--;
+   if(tpoEntrePisos==0)
+   {
+     pisoActual--;
+     return TRUE;
+   }
+   return FALSE;
+}
+
+// Moverse hacia arriba
+static bool_t subirUnPiso( void ){
+   if (delayRead(&base1seg))
+      tpoEntrePisos--;
+   if(tpoEntrePisos==0)
+   {
+     pisoActual++;
+     return TRUE;
+   }
+   return FALSE;
+}
+
+// Chequea si hay que entrar en modo configuraci'on
+static bool_t modoConfiguracion( void )
 {
-        if (vPisoCorriente<0)
+     if(pisoDestino=99)
+     {
+       pisoDestino=0;
+       return TRUE;
+     }
+     return FALSE;
+}
+
+// Chequea si hay que subir
+static bool_t hayPeticionDeSubirPendiente( int8_t pisoActual )
+{
+     if(pisoDestino>pisoActual)
+       return TRUE;
+     return FALSE;
+}
+
+// Chequea si hay que bajar
+static bool_t hayPeticionDeBajarPendiente( int8_t pisoActual )
+{
+     if(pisoDestino<pisoActual)
+       return TRUE;
+     return FALSE;
+}
+
+/*==================[definiciones de funciones externas]=====================*/
+
+uint8_t mensaje[10];
+/**
+ * C++ version 0.4 char* style "itoa":
+ * Written by Luk�s Chmela
+ * Released under GPLv3.
+
+ */
+char* itoa(int value, char* result, int base) {
+   // check that the base if valid
+   if (base < 2 || base > 36) { *result = '\0'; return result; }
+
+   char* ptr = result, *ptr1 = result, tmp_char;
+   int tmp_value;
+
+   do {
+      tmp_value = value;
+      value /= base;
+      *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
+   } while ( value );
+
+   // Apply negative sign
+   if (tmp_value < 0) *ptr++ = '-';
+   *ptr-- = '\0';
+   while(ptr1 < ptr) {
+      tmp_char = *ptr;
+      *ptr--= *ptr1;
+      *ptr1++ = tmp_char;
+   }
+   return result;
+}
+
+/************************************************
+Agrega el piso en los 2 d'igitos menos significa-
+tivos de vDisplay
+*************************************************/
+void mostrarPiso( void )
+{
+        if (pisoActual<0)
         {
-         if(vPisoCorriente<-vCantidadSubsuelos)
+         if(pisoActual<-cantidadDeSubsuelos)
          {
            uartWriteString(UART_USB,"valor invalido del subsuelo corriente\n\n");
-           while(1);
+           ascensorInicializarMEF();
          }
-         vDisplay[3]=(-vPisoCorriente);
+         vDisplay[3]=(-pisoActual);
          vDisplay[2]=MENOS;
         }
-        else if (vPisoCorriente==0)
+        else if (pisoActual==0)
         {
           vDisplay[3]=CHAR_b;
           vDisplay[2]=CHAR_P;
         }
         else
         {
-         if(vPisoCorriente>vCantidadPisos)
+         if(pisoActual>cantidadDePisos)
          {
            uartWriteString(UART_USB,"valor invalido del piso corriente\n\n");
-           while(1);
+           ascensorInicializarMEF();
          }
-         vDisplay[3]=vPisoCorriente%10;
-         if (!(vDisplay[2]=vPisoCorriente/10))
+         vDisplay[3]=pisoActual%10;
+         if (!(vDisplay[2]=pisoActual/10))
            vDisplay[2]=NULO;
         }
+        driverDisplayMostrar(vDisplay);
+} 
+
+void mostrarEstado( void ){
+   
+   switch( estadoMefAscensor ){
+      
+      case EN_PLANTA_BAJA:
+         uartWriteString( UART_USB, "EN_PLANTA_BAJA     ");
+      break;
+      
+      case MODO_CONFIGURACION:
+         uartWriteString( UART_USB, "MODO_CONFIGURACION " );
+      break;
+      
+      case BAJANDO:
+         uartWriteString( UART_USB, "BAJANDO            " );
+      break;
+      
+      case SUBIENDO:
+         uartWriteString( UART_USB, "SUBIENDO           " );
+      break;
+      
+      case PARADO:
+         uartWriteString( UART_USB, "PARADO             " );
+      break;
+      
+      case YENDO_A_PLANTA_BAJA:
+         uartWriteString( UART_USB, "YENDO_A_PLANTA_BAJA" );
+      break;
+      
+      default:
+         uartWriteString( UART_USB, "Estado invalido    " );
+      break;
+   }
+
+   itoa( pisoActual, mensaje, 10);
+   uartWriteString( UART_USB, " | piso actual: " );
+   uartWriteString( UART_USB, mensaje );
+
+   itoa( pisoDestino, mensaje, 10);
+   uartWriteString( UART_USB, " | piso destino: " );
+   uartWriteString( UART_USB, mensaje );
+   uartWriteString( UART_USB, "\r\n" ); 
+} 
+
+
+// Inicializar la MEF de ascensor
+void ascensorInicializarMEF( void ){
+   estadoMefAscensor = EN_PLANTA_BAJA;
 }
 
-static void configurarCantPisos(uartMap_t uart)
-{
-  int cant=0;
-  char str[2]="00";
-  char c;
-  uint16_t nroPisos=0;
-  
-  do{
-    cant=0;
-    uartWriteString(uart,"Ingrese la cantidad de pisos (1-98)= ");
-    while(!uartReadByte(uart,&c));
-    while(c!='\r')
-    {
-      if((c>='0' && c<='9') && cant<2)
-      {
-        str[0]=str[1];
-        str[1]=c;
-        cant++;
-        uartWriteByte(uart,c);
-      }
-      if(c=='\b' && cant>0)
-      {
-        --cant;
-        str[1]=str[0];
-        str[0]='0';
-        uartWriteString(uart,"\b \b");
-      }
-      while(!uartReadByte(uart,&c));
-    }
-    nroPisos=(str[0]-'0')*10+str[1]-'0';
-    if(0==nroPisos || 98<nroPisos)
-    {
-      uartWriteString(uart,"\b\b  \r");
-      str[0]=str[1]='0';
-      cant=0;
-    }
-    else
-    {
-      vCantidadPisos=nroPisos;
-      uartWriteString(uart,"\n\r");
-    }
-  }while(0==nroPisos || 98<nroPisos);
-  
+// Actualizar la MEF de ascensor
+void ascensorActualizarMEF( void ){
+   
+   static bool_t flagEnPlantaBaja = FALSE;
+   static bool_t flagModoConfiguracion = FALSE;
+   static bool_t flagBajando = FALSE;
+   static bool_t flagSubiendo = FALSE;
+   static bool_t flagParado = FALSE;
+   static bool_t flagYendoAPlantaBaja = FALSE;
+
+   switch( estadoMefAscensor ){
+      
+      case EN_PLANTA_BAJA:
+         // Al ingresar al estado se ejecuta 1 vez:
+         if( flagEnPlantaBaja == FALSE ){
+            flagEnPlantaBaja = TRUE;  
+            mostrarPiso();
+            mostrarEstado();
+            secuenciaDeAperturaDePuertas();
+         }
+         // Salida en el estado:
+            // No hace nada.
+         // Condicion/es de transicion de estado:
+         if (sacarDeCola(&pedidos,&pisoDestino))
+         {
+           if( modoConfiguracion() ){
+              // Se ingresa al modo configuracion
+              estadoMefAscensor = MODO_CONFIGURACION;
+           }
+           if( hayPeticionDeSubirPendiente( pisoActual ) ){ 
+              // Existe peticion pendiente de subir
+              estadoMefAscensor = SUBIENDO;
+              flagEnPlantaBaja = FALSE;
+           }
+           if( hayPeticionDeBajarPendiente( pisoActual ) ){
+              // Existe peticion pendiente de bajar
+              estadoMefAscensor = BAJANDO;
+              flagEnPlantaBaja = FALSE;
+           }
+         }
+         // Ejecutar si hubo cambio de estado
+         if( estadoMefAscensor != EN_PLANTA_BAJA ){            
+            secuenciaDeCerradoDePuertas();
+            flagEnPlantaBaja = FALSE;
+         }
+      break;
+      
+      case MODO_CONFIGURACION:
+         // Al ingresar al estado se ejecuta 1 vez:
+         if( flagModoConfiguracion == FALSE ){
+            flagModoConfiguracion = TRUE;  
+            mostrarEstado();
+            secuenciaDeConfiguracion();
+         }
+         // Salida en el estado:
+            // No hace nada.
+         // Condicion/es de transicion de estado:
+         if( seCompletoLaConfiguracion() ){ 
+            // Se completo la configuracion
+            estadoMefAscensor = EN_PLANTA_BAJA;
+         }
+         // Ejecutar si hubo cambio de estado
+         if( estadoMefAscensor != MODO_CONFIGURACION ){
+            flagModoConfiguracion = FALSE;
+         }
+      break;
+      
+      case BAJANDO:
+         // Al ingresar al estado se ejecuta 1 vez:
+         if( flagBajando == FALSE ){
+            flagBajando = TRUE;
+            vDisplay[0]=CHAR_b;
+            mostrarEstado();
+            mostrarPiso();
+            tpoEntrePisos=velocidadEntrePisos;
+         }
+         // Salida en el estado:
+         if(bajarUnPiso())
+         {
+            mostrarPiso();
+         }; // Moverse hacia abajo.
+         // Condicion/es de transicion de estado:
+         if( llegoAlPiso( pisoDestino ) ){ 
+            // Llego al piso
+            estadoMefAscensor = PARADO;
+         }
+         // Ejecutar si hubo cambio de estado
+         if( estadoMefAscensor != BAJANDO ){
+            flagBajando = FALSE;
+         }
+      break;
+      
+      case SUBIENDO:
+         // Al ingresar al estado se ejecuta 1 vez:
+         if( flagSubiendo == FALSE ){
+            flagSubiendo = TRUE;
+            vDisplay[0]=CHAR_S;
+            mostrarEstado();
+            mostrarPiso();
+            tpoEntrePisos=velocidadEntrePisos;
+         }
+         // Salida en el estado:
+         if (subirPiso())
+           mostrarPiso(); // Moverse hacia arriba.
+         // Condicion/es de transicion de estado:
+         if( llegoAlPiso( pisoDestino ) ){ 
+            // Llego al piso
+            estadoMefAscensor = PARADO;
+         }
+         // Ejecutar si hubo cambio de estado
+         if( estadoMefAscensor != SUBIENDO ){
+            flagSubiendo = FALSE;
+         }
+      break;
+      
+      case PARADO:
+         // Al ingresar al estado se ejecuta 1 vez:
+         if( flagParado == FALSE ){
+            flagParado = TRUE;
+            mostrarPiso();
+            mostrarEstado();
+            secuenciaDeAperturaDePuertas();
+            temporizador = 0;
+            delayConfig( &base1seg, 1000 );
+         }
+         // Salida en el estado:
+         if( delayRead( &base1seg ) ){           
+            temporizador++;
+         }
+         if (puertasCerradas())
+         {        
+           if(sacarDeCola(&pedidos,&pisoDestino))
+           {
+             // Condicion/es de transicion de estado:
+             if( hayPeticionDeSubirPendiente( pisoActual ) ){ 
+                // Existe peticion pendiente de subir
+           
+                estadoMefAscensor = SUBIENDO;
+                break;
+             }
+             if( hayPeticionDeBajarPendiente( pisoActual ) ){
+                // Existe peticion pendiente de bajar
+                estadoMefAscensor = BAJANDO;
+                break;
+             }
+           }
+           if( temporizador >= TIMEOUT_PARADO ){
+              // Se va a planta baja
+              uartWriteString( UART_USB, "Se cumplio el time-out de PARADO\r\n" ); 
+              estadoMefAscensor = YENDO_A_PLANTA_BAJA;
+              break;
+           }
+         }
+         // Ejecutar si hubo cambio de estado
+         if (estadoMefAscensor!=PARADO)
+           flagParado = FALSE;
+      break;
+      
+      case YENDO_A_PLANTA_BAJA:
+         // Al ingresar al estado se ejecuta 1 vez:
+         if( flagYendoAPlantaBaja == FALSE ){
+            flagYendoAPlantaBaja = TRUE;
+            mostrarEstado();
+            pisoDestino = 0;
+            cancelarPeticionPendiente(0);
+         }
+         // Salida en el estado:
+         mostrarPiso();
+         if( pisoActual > 0 ){
+            bajarUnPiso(); // Moverse hacia abajo.
+         }
+         if( pisoActual < 0 ){
+            subirUnPiso(); // Moverse hacia arriba.
+         }
+         // Condicion/es de transicion de estado:
+         if( llegoAlPiso( 0 ) ){ 
+            // Llego al piso
+            estadoMefAscensor = EN_PLANTA_BAJA;
+         }
+         // Ejecutar si hubo cambio de estado
+         if( estadoMefAscensor != YENDO_A_PLANTA_BAJA ){
+            flagYendoAPlantaBaja = FALSE;
+         }
+      break;
+      
+      default:
+         ascensorInicializarMEF();
+      break;
+   }
 }
 
-static void configurarCantidadSubsuelos(uartMap_t uart)
-{
-  int cant=0;
-  char str[1]="0";
-  char c;
-  uint16_t nroPisos=0;
-  
-  do{
-    uartWriteString(uart,"Ingrese la cantidad de subsuelos (0-5)= ");
-    while(!uartReadByte(uart,&c));
-    while(c!='\r')
-    {
-      if((c>='0' && c<='9') && cant<1)
-      {
-        cant;
-        str[cant++]=c;
-        uartWriteByte(uart,c);
-      }
-      if(c=='\b' && cant>0)
-      {
-        str[--cant]='0';
-        uartWriteString(uart,"\b \b");
-      }
-      while(!uartReadByte(uart,&c));
-    }
-    nroPisos=(str[0]-'0');
-    if(5<nroPisos)
-    {
-      uartWriteString(uart,"\b \r");
-      str[0]='0';
-      cant=0;
-    }
-    else
-    {
-      vCantidadSubsuelos=nroPisos;
-      uartWriteString(uart,"\n\r");
-    }
-  }while(5<nroPisos);
-}
-static void configurarPeriodoAperturaCierre(uartMap_t uart)
-{
-  int cant=0;
-  char str[1]="0";
-  char c;
-  uint16_t periodo=1;
-  
-  do{
-    uartWriteString(uart,"Ingrese el tiempo de cierre o apertura de puerta (1s-5s)= ");
-    while(!uartReadByte(uart,&c));
-    while(c!='\r')
-    {
-      if((c>='0' && c<='9') && cant<1)
-      {
-        str[cant++]=c;
-        uartWriteByte(uart,c);
-      }
-      if(c=='\b' && cant>0)
-      {
-        str[--cant]='0';
-        uartWriteString(uart,"\b \b");
-      }
-      while(!uartReadByte(uart,&c));
-    }
-    periodo=(str[0]-'0');
-    if(0==periodo || 5<periodo)
-    {
-      uartWriteString(uart,"\b \r");
-      str[0]='0';
-      cant=0;
-    }
-    else
-    {
-      vPeriodoAperturaPuerta=periodo*1000;
-      vPeriodoCierrePuerta=periodo*1000;
-      uartWriteString(uart,"\n\r");
-    }
-  }while(0==periodo || 5<periodo);
-}
-static void configurarPeriodoEntrePisos(uartMap_t uart)
-{
-  int cant=0;
-  char str[1]="0";
-  char c;
-  uint16_t periodo=1;
-  
-  do{
-    uartWriteString(uart,"Ingrese el tiempo de recorrido entre pisos (1s-5s)= ");
-    while(!uartReadByte(uart,&c));
-    while(c!='\r')
-    {
-      if((c>='0' && c<='9') && cant<1)
-      {
-        cant;
-        str[cant++]=c;
-        uartWriteByte(uart,c);
-      }
-      if(c=='\b' && cant>0)
-      {
-        str[--cant]='0';
-        uartWriteString(uart,"\b \b");
-      }
-      while(!uartReadByte(uart,&c));
-    }
-    periodo=(str[0]-'0');
-    if(0==periodo || 5<periodo)
-    {
-      uartWriteString(uart,"\b \r");
-      str[0]='0';
-      cant=0;
-    }
-    else
-    {
-      vPeriodoEntrePiso=periodo*1000;
-      uartWriteString(uart,"\n\r");
-    }
-  }while(0==periodo || 5<periodo);
-}
-
-/*==================[definiciones de funciones externas]=====================*/
-
-void mefAscensorInsertar(uint16_t piso)
-{
-	if (vColaDePisos.cant<16)
-	{
-	  vColaDePisos.cant++;
-	  vColaDePisos.pendiente[vColaDePisos.ultimo++]=piso;
-	  vColaDePisos.ultimo&=0x0f;  
-	}
-}
 /*==================[fin del archivo]========================================*/
-/*void mefAscensorInit( void )
-{
-  driverDisplayLimpiar(vDisplay);
-  vDisplay[2]=CHAR_P;
-  vDisplay[3]=CHAR_b;
-  driverDisplayMostrar(vDisplay);  //Muestra Pb en el display
-  vPisoCorriente=0;
-  vPisoDestino=0;
-  eAbrirPuertas=0;
-  eCerrarPuertas=0;
-  vColaDePisos.ultimo=0;
-  vColaDePisos.primero=0;
-  vColaDePisos.cant=0;
-  uartConfig(UART_USB,115200);
-}
-
-void mefAscensorActualizar( void )
-{
-  static enum{EnPlantaBaja,Subiendo,Bajando,
-              EsperaCierreBajando,EsperaCierreSubiendo,
-              Parado,ParadoPuertaAbierta,YendoPlantaBaja,
-              SubiendoaPlantaBaja,BajandoaPlantaBaja,
-              ModoConfiguracion} estado=EnPlantaBaja;
-
-  if (eMostrarPiso)
-  {
-    eMostrarPiso=0;
-    driverDisplayMostrar(vDisplay);
-  }
-
-  switch (estado)
-  {
-  case EnPlantaBaja:
-    if(sPuertaCerrada)
-      if (mefAscensorObtener(&vPisoDestino))
-      {
-        if (99==vPisoDestino)
-        {
-          estado=ModoConfiguracion;
-        }
-        else if(vPisoCorriente>vPisoDestino)
-        {
-          vDisplay[0]=CHAR_b;
-          vDisplay[1]=NULO;
-          driverDisplayMostrar(vDisplay);
-          delayConfig(&delayEntrePiso,vPeriodoEntrePiso);
-          estado=Bajando;
-          eCerrarPuertas=1;
-        }
-        else if (vPisoCorriente<vPisoDestino)
-        {
-          vDisplay[0]=CHAR_S;
-          vDisplay[1]=NULO;
-          driverDisplayMostrar(vDisplay);
-          delayConfig(&delayEntrePiso,vPeriodoEntrePiso);
-          estado=Subiendo;
-          eCerrarPuertas=1;
-        }
-        else
-        {
-           eAbrirPuertas=1;
-           driverDisplayMostrar(vDisplay);
-        }
-      }
-    break;
-  case Bajando:
-    if(delayRead(&delayEntrePiso))
-    {
-      int i;
-      
-      vPisoCorriente--;
-      if(vPisoCorriente==vPisoDestino)
-      {
-        eAbrirPuertas=1;
-        if(0==vPisoCorriente)
-          estado=EnPlantaBaja;
-        else
-        {
-          estado=Parado;
-          delayConfig(&delayEsperaEnDestino,vPeriodoEsperaEnDestino);
-        }
-        vDisplay[0]=NULO;
-        mefAscensorPutPiso(vPisoCorriente);
-      }
-      mefAscensorPutPiso(vPisoCorriente);
-      driverDisplayMostrar(vDisplay);
-    }
-    break;
-  case Subiendo:
-    if(delayRead(&delayEntrePiso))
-    {
-      vPisoCorriente++;
-      if(vPisoCorriente==vPisoDestino)
-      {
-        eAbrirPuertas=1;
-        if(vPisoCorriente==0)
-          estado=EnPlantaBaja;
-        else
-        {
-          estado=Parado;
-          delayConfig(&delayEsperaEnDestino,vPeriodoEsperaEnDestino);
-        }
-        vDisplay[0]=NULO;
-      }
-      mefAscensorPutPiso(vPisoCorriente);
-      driverDisplayMostrar(vDisplay);
-    }
-    break;
-  case Parado:
-    if(sPuertaAbierta)
-      eCerrarPuertas=1;   
-    else if(sPuertaCerrada)
-      if (mefAscensorObtener(&vPisoDestino))
-        if(vPisoCorriente>vPisoDestino)
-        {
-          vDisplay[0]=CHAR_b;
-          vDisplay[1]=NULO;
-          driverDisplayMostrar(vDisplay);
-          delayConfig(&delayEntrePiso,vPeriodoEntrePiso);
-          estado=Bajando;
-        }
-        else if (vPisoCorriente<vPisoDestino)
-        {
-          vDisplay[0]=CHAR_S;
-          vDisplay[1]=NULO;
-          driverDisplayMostrar(vDisplay);
-          delayConfig(&delayEntrePiso,vPeriodoEntrePiso);
-          estado=Subiendo;
-        }
-        else
-          eAbrirPuertas=1;
-      else if (delayRead(&delayEsperaEnDestino))
-      {
-        if(vPisoCorriente==0)
-          estado=EnPlantaBaja;
-        else
-        {
-          vPisoDestino=0;
-          estado=YendoPlantaBaja;
-        }
-      }
-      
-    break;
-  case YendoPlantaBaja:
-    delayConfig(&delayEntrePiso,vPeriodoEntrePiso);
-    if(vPisoCorriente==vPisoDestino)
-    {
-      estado=EnPlantaBaja;
-    }
-    else if (vPisoCorriente>vPisoDestino)
-    {
-      vDisplay[0]=CHAR_b;
-      vDisplay[1]=NULO;
-      driverDisplayMostrar(vDisplay);
-      estado=Bajando;
-    }
-    else if (vPisoCorriente<vPisoDestino)
-    {
-      vDisplay[0]=CHAR_S;
-      vDisplay[1]=NULO;
-      driverDisplayMostrar(vDisplay);
-      estado=Subiendo;
-    }
-    break;
-  case ModoConfiguracion:
-    configurarCantPisos(UART_USB);
-    configurarCantidadSubsuelos(UART_USB);
-    configurarPeriodoAperturaCierre(UART_USB);
-    configurarPeriodoEntrePisos(UART_USB);
-    estado=EnPlantaBaja;
-    driverDisplayLimpiar(vDisplay);
-    vDisplay[0]=CHAR_P;
-    vDisplay[1]=CHAR_b;
-    driverDisplayMostrar(vDisplay);
-    break;
-  }
-}
-
-void mefManejoPuertasActualizar( void )
-{
-  static enum{PuertaCerrada,AbriendoPuerta,PuertaAbierta,CerrandoPuerta,AlarmaPuertaAbierta} estado=PuertaCerrada;
-  static bool_t ledEncendido=FALSE;
-  static delay_t delayTemporizador;
-  static delay_t delayTemporizador1;
-  static delay_t delayLed;
-  
-  switch(estado)
-  {
-  case PuertaAbierta:
-    if(delayRead(&delayTemporizador))
-    {
-      eCerrarPuertas=0;
-      delayConfig(&delayTemporizador,vPeriodoCierrePuerta);
-      gpioWrite(LEDG,OFF);
-      gpioWrite(LED1,ON);
-      estado=CerrandoPuerta;
-      sPuertaAbierta=0;
-    }
-    break;
-  case CerrandoPuerta:
-    if(!gpioRead(TEC1))
-    {
-      delayConfig(&delayLed,500);
-      delayConfig(&delayTemporizador1,2000);
-      ledEncendido=1;
-      gpioWrite(LED1,OFF);
-      gpioWrite(LEDR,ON);
-      estado=AlarmaPuertaAbierta;
-    }
-    else if (delayRead(&delayTemporizador))
-    {
-      gpioWrite(LED1,OFF);
-      estado=PuertaCerrada;
-      sPuertaCerrada=1;
-    }
-    break;
-  case AlarmaPuertaAbierta:
-    if(delayRead(&delayTemporizador1))
-    {
-      if(ledEncendido)
-      {
-        gpioWrite(LEDR,OFF);
-        ledEncendido=FALSE;
-      }
-      delayConfig(&delayTemporizador,vPeriodoCierrePuerta);
-      gpioWrite(LED1,ON);
-      estado=CerrandoPuerta;
-    }
-    else if(delayRead(&delayLed))
-    {
-      if(ledEncendido)
-      {
-        gpioWrite(LEDR,OFF);
-        ledEncendido=FALSE;
-      }
-      else
-      {
-        gpioWrite(LEDR,ON);
-        ledEncendido=TRUE;
-      }
-    }
-    break;
-  case PuertaCerrada:
-    if(eAbrirPuertas)
-    {
-      eAbrirPuertas=0;
-      estado=AbriendoPuerta;
-      gpioWrite(LED2,ON);
-      delayConfig(&delayTemporizador,vPeriodoAperturaPuerta);
-      sPuertaCerrada=0;
-    }
-    break;
-  case AbriendoPuerta:
-    if(delayRead(&delayTemporizador))
-    {
-      sPuertaAbierta=1;
-      gpioWrite(LED2,OFF);
-      gpioWrite(LEDG,ON);
-      estado=PuertaAbierta;
-      delayConfig(&delayTemporizador,vPeriodoIngresoEgreso);
-    }
-  }
-}
-
-void mefManejoPuertasInit( void )
-{
-  gpioConfig(LEDR,GPIO_OUTPUT);
-  gpioConfig(LEDG,GPIO_OUTPUT);
-  gpioConfig(LED1,GPIO_OUTPUT);
-  gpioConfig(LED2,GPIO_OUTPUT);
-  gpioConfig(TEC1,GPIO_INPUT);
-  gpioWrite(LEDR,OFF);
-  gpioWrite(LEDG,OFF);
-  gpioWrite(LED1,OFF);
-  gpioWrite(LED2,OFF);
-  sPuertaAbierta=0;
-  sPuertaCerrada=1;
-  eCerrarPuertas=0;
-  eAbrirPuertas=0;
-}*/
